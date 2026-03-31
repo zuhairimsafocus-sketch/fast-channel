@@ -36,6 +36,8 @@ COL = ['#4A8FE7','#38BEC9','#3DD68C','#F5A623','#E5567A','#9B7AE8','#E8845A','#6
 DCOL = ['#4A8FE7','#38BEC9','#3DD68C','#F5A623','#E5567A']
 CCOL = {'London':'#38BEC9','Birmingham':'#4A8FE7','Dublin':'#F5A623','Newcastle':'#3DD68C','Belfast':'#E5567A','Cardiff':'#9B7AE8','Glasgow':'#E8845A'}
 GR = '#CBD5E1' if not is_dark else '#1E2740'
+def grid_rgba():
+    return 'rgba(203,213,225,0.25)' if not is_dark else 'rgba(30,39,64,0.25)'
 
 # ============================================================
 # CSS
@@ -236,7 +238,7 @@ if page == "📊 Overall":
             line=dict(color='#4A8FE7',width=3),marker=dict(size=8,color='#4A8FE7',line=dict(width=2,color='white')),
             fill='tozeroy',fillcolor='rgba(74,143,231,0.06)'))
         fig.update_layout(**bL(),title=dict(text='📈 Monthly Average',font=dict(size=14)),
-            xaxis=dict(showgrid=False,linecolor=GR),yaxis=dict(gridcolor=GR+'40',linecolor=GR,range=[4,10]),height=420,showlegend=False)
+            xaxis=dict(showgrid=False,linecolor=GR),yaxis=dict(gridcolor=grid_rgba(),linecolor=GR,range=[4,10]),height=420,showlegend=False)
         st.plotly_chart(fig,use_container_width=True)
     
     st.plotly_chart(make_map(),use_container_width=True)
@@ -261,7 +263,7 @@ elif page == "📺 Channel":
         fig.add_trace(go.Scatter(x=MS,y=pv.loc[ch].values,mode='lines+markers',name=ch,
             line=dict(color=COL[i%len(COL)],width=2),marker=dict(size=5),visible=True if i<5 else 'legendonly'))
     fig.update_layout(**bL(),title=dict(text='📈 Monthly Trends (Click legend)',font=dict(size=14)),
-        xaxis=dict(showgrid=False,linecolor=GR),yaxis=dict(gridcolor=GR+'40',linecolor=GR,range=[3,12]),
+        xaxis=dict(showgrid=False,linecolor=GR),yaxis=dict(gridcolor=grid_rgba(),linecolor=GR,range=[3,12]),
         legend=dict(orientation='h',y=-0.2,x=0.5,xanchor='center',bgcolor='rgba(0,0,0,0)',font=dict(size=10)),
         hovermode='x unified',height=450)
     st.plotly_chart(fig,use_container_width=True)
@@ -280,7 +282,7 @@ elif page == "📺 Channel":
         for i,ch in enumerate(ca.index):
             fig.add_trace(go.Box(y=pv.loc[ch].values,name=ch,marker_color=COL[i%len(COL)],line=dict(color=COL[i%len(COL)]),boxmean=True))
         fig.update_layout(**bL(),title=dict(text='📦 Distribution',font=dict(size=14)),
-            xaxis=dict(showgrid=False,linecolor=GR,tickangle=-45),yaxis=dict(gridcolor=GR+'40',linecolor=GR,range=[2,12]),showlegend=False,height=480)
+            xaxis=dict(showgrid=False,linecolor=GR,tickangle=-45),yaxis=dict(gridcolor=grid_rgba(),linecolor=GR,range=[2,12]),showlegend=False,height=480)
         st.plotly_chart(fig,use_container_width=True)
     
     # Heatmap
@@ -324,7 +326,7 @@ elif page == "👥 Demographics":
     for i,col in enumerate(dc):
         fig.add_trace(go.Bar(x=df_d['Programme'],y=df_d[col],name=DL[i],marker=dict(color=DCOL[i])))
     fig.update_layout(**bL(),title=dict(text='📊 Side-by-Side',font=dict(size=14)),barmode='group',
-        xaxis=dict(showgrid=False,linecolor=GR,tickangle=-45),yaxis=dict(gridcolor=GR+'40',linecolor=GR,title='Index'),
+        xaxis=dict(showgrid=False,linecolor=GR,tickangle=-45),yaxis=dict(gridcolor=grid_rgba(),linecolor=GR,title='Index'),
         legend=dict(orientation='h',y=-0.3,x=0.5,xanchor='center',bgcolor='rgba(0,0,0,0)',font=dict(size=11)),height=460)
     st.plotly_chart(fig,use_container_width=True)
     
@@ -375,7 +377,7 @@ elif page == "📍 Location":
             marker=dict(color=[CCOL.get(c,'#4A8FE7') for c in ct.index]),
             text=[f'{v:.1f}' for v in ct.values],textposition='outside',textfont=dict(size=12)))
         fig.update_layout(**bL(),title=dict(text='🏙️ Rating by City',font=dict(size=14)),
-            xaxis=dict(showgrid=False,linecolor=GR),yaxis=dict(gridcolor=GR+'40',linecolor=GR,range=[0,48]),showlegend=False,height=400)
+            xaxis=dict(showgrid=False,linecolor=GR),yaxis=dict(gridcolor=grid_rgba(),linecolor=GR,range=[0,48]),showlegend=False,height=400)
         st.plotly_chart(fig,use_container_width=True)
     with cP:
         ld = df_l[df_l['City']=='London'].sort_values('Ratings',ascending=False)
